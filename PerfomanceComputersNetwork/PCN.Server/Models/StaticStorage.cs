@@ -54,6 +54,21 @@ namespace PCN.Server.Models
                 ComputersInfo[id] = info;
         }
 
+        public ComputerInfoDto GetComputerInfo(Guid id)
+        {
+            return ComputersInfo.ContainsKey(id) ? ComputersInfo[id] : null;
+        }
+
+        public IEnumerable<RamDto> GetRamInfo(Guid id)
+        {
+            return RamInfo[id];
+        }
+
+        public IEnumerable<CpuDto> GetCpuInfo(Guid id)
+        {
+            return CpuInfo[id];
+        }
+
         public void CreateRamInfo(Guid id, RamDto info)
         {
             info.DateTime = DateTime.Now;
@@ -75,11 +90,22 @@ namespace PCN.Server.Models
         public void InitTestData()
         {
             var rand = new Random();
+            const int count = 50;
 
             for (int i = 1; i < 6; i++)
             {
                 var guid = Guid.NewGuid();
                 ComputersInfo.Add(guid, new ComputerInfoDto { Ip = $"{rand.Next(1, 255)}.{rand.Next(1, 255)}.{rand.Next(1, 255)}.{rand.Next(1, 255)}", ProcessorName = "Intel i" + i, SoundDevice = "Realtek v" + i, VideoController = "Xamarin" });
+
+                var ramList = new List<RamDto>();
+                for (var j = 0; j < count; j++)
+                    ramList.Add(new RamDto { DateTime = DateTime.Now.AddMinutes(i + j), Total = 8589934592, Usage = 1048576 * (ulong)rand.Next(20, 8192) });
+                RamInfo.Add(guid, ramList);
+
+                var cpuList = new List<CpuDto>();
+                for (var j = 0; j < count; j++)
+                    cpuList.Add(new CpuDto {DateTime = DateTime.Now.AddMinutes(i+j), Value = rand.Next(1, 101)});
+                CpuInfo.Add(guid, cpuList);
             }
 
         }

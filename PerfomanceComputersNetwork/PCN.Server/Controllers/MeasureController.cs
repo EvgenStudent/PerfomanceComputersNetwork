@@ -17,6 +17,31 @@ namespace PCN.Server.Controllers
             return Ok(StaticStorage.Instance.ComputerIps);
         }
 
+        // GET
+
+        [Route("api/measure/{userid}/ram")]
+        [HttpGet]
+        public IHttpActionResult GetRam([FromUri] Guid userid)
+        {
+            return Ok(StaticStorage.Instance.GetRamInfo(userid));
+        }
+
+        [Route("api/measure/{userid}/cpu")]
+        [HttpGet]
+        public IHttpActionResult GetCpu([FromUri] Guid userid)
+        {
+            return Ok(StaticStorage.Instance.GetCpuInfo(userid));
+        }
+
+        [Route("api/measure/{userid}/compinfo")]
+        [HttpGet]
+        public IHttpActionResult GetCompInfo([FromUri] Guid userid)
+        {
+            return Ok(StaticStorage.Instance.GetComputerInfo(userid));
+        }
+
+        // POST
+
         [Route("api/measure/{userid}/ram")]
         [HttpPost]
         public IHttpActionResult CreateRam([FromUri] Guid userid, [FromBody] RamDto ramInfo)
