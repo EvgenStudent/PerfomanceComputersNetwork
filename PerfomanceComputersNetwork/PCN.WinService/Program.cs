@@ -1,25 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration.Install;
 using System.Linq;
+using System.Reflection;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+using PCN.WinService.Install;
 
 namespace PCN.WinService
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        ///     The main entry point for the application.
         /// </summary>
-        static void Main()
+        private static void Main(string[] args)
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            if (Environment.UserInteractive)
             {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+                var parameter = string.Concat(args);
+                switch (parameter)
+                {
+                    case "--install":
+                        if (!ServiceInstalled())
+                            ManagedInstallerClass.InstallHelper(new[] {Assembly.GetExecutingAssembly().Location});
+                        break;
+                    case "--uninstall":
+                        if (ServiceInstalled())
+                            ManagedInstallerClass.InstallHelper(new[] {"/u", Assembly.GetExecutingAssembly().Location});
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
+                    new Service()
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+        }
+
+        private static bool ServiceInstalled()
+        {
+            return ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == InstallTimeConfigurationManager.GetConfigurationValue("SystemServiceName")) != null;
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>PCN. Admin Panel</title>
+
+  <!--Bower-->
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/angular-animate/angular-animate.min.js"></script>
+  <script src="lib/angular-aria/angular-aria.min.js"></script>
+  <script src="lib/angular-cookies/angular-cookies.min.js"></script>
+  <script src="lib/angular-material/angular-material.min.js"></script>
+  <link href="lib/angular-material/angular-material.min.css" rel="stylesheet" />
+  <script src="lib/angular-messages/angular-messages.min.js"></script>
+  <script src="lib/angular-resource/angular-resource.min.js"></script>
+  <script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+
+  <link href="styles/styles.css" rel="stylesheet" />
+
+  <script src="app/pcn.module.js"></script>
+  <script src="app/admin.service.js"></script>
+  <script src="app/admin.controller.js"></script>
+</head>
+<body ng-app="pcnApp" ng-controller="adminController" layout="column">
+<md-toolbar layout="row" layout-align="start center">
+  <span class="md-headline" style="margin-left: 340px;" ng-hide="buttonIndex == null">Computer #{{buttonIndex + 1}}: {{currentIp}}</span>
+</md-toolbar>
+<div layout="row">
+  <md-sidenav style="min-height: calc(100vh - 64px);" class="md-sidenav-left md-whiteframe-z1" md-component-id="left" md-is-locked-open="true" layout="column">
+    <div ng-repeat="info in infos track by $index" ng-class="{'button-active': buttonIndex === $index}">
+      <md-button style="margin: 0; width: 320px; padding: 6px 25px" ng-click="showComputer($index, info.id, info.ip)">
+        <div layout="column">
+          <span style="text-align: left; height: 18px;">{{info.ip}}</span>
+          <span style="text-align: left; font-size: 11px; color: #ABABAB;">{{info.id}}</span>
+        </div>
+      </md-button>
+    </div>
+  </md-sidenav>
+  <div flex layout="row">
+    <div flex="15"></div>
+    <md-card style="margin: 40px 0" class="md-padding" flex>
+      e
+    </md-card>
+    <div flex="15"></div>
+ </div>
+</div>
+</body>
+</html>
