@@ -2,7 +2,8 @@
 
 angular.module("pcnApp")
   .controller("adminController", [
-    "$scope", "$q", "$mdDialog", "adminService", function($scope, $q, $mdDialog, adminService) {
+    "$scope", "$q", "$mdDialog", "$interval", "adminService", "settings",
+    function($scope, $q, $mdDialog, $interval, adminService, settings) {
       adminService.getComputersInfo().then(function(infos) {
         $scope.infos = infos;
       });
@@ -41,7 +42,7 @@ angular.module("pcnApp")
           data.addColumn("number", "RAM");
 
           var rows = [];
-          $scope.ramArray.forEach(function (el) {
+          $scope.ramArray.forEach(function(el) {
             rows.push([new Date(Date.parse(el.DateTime)), el.Usage / 1024 / 1024]);
           });
           data.addRows(rows);
@@ -61,10 +62,7 @@ angular.module("pcnApp")
         });
       };
 
-      $scope.showComputer = function(index, id, ip) {
-        $scope.buttonIndex = index;
-        $scope.currentIp = ip;
-
+      var downloadData = function(id) {
         $q.all({
           compDetails: adminService.getComputerDetail(id),
           ramArray: adminService.getRamInfo(id),
@@ -80,5 +78,38 @@ angular.module("pcnApp")
           console.log(error);
         });
       };
+
+      $scope.showComputer = function(index, id, ip) {
+        $scope.buttonIndex = index;
+        $scope.currentIp = ip;
+
+        $scope.stopTimer();
+        $scope.startTimer(id);
+        downloadData(id);
+      };
+
+      // Interval Timer Logic
+      var timer;
+
+      $scope.startTimer = function(id) {
+        if (angular.isDefined(timer))
+          $scope.stopTimer();
+
+        timer = $interval(function(id1) {
+          downloadData(id1);
+          console.log(id1 + " : " + new Date().toTimeString());
+        }, settings.timerInterval, 0, true, id);
+      };
+
+      $scope.stopTimer = function() {
+        if (angular.isDefined(timer)) {
+          $interval.cancel(timer);
+          timer = undefined;
+        }
+      };
+
+      $scope.$on("$destroy", function() {
+        $scope.stopTimer();
+      });
     }
   ]);

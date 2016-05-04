@@ -1,10 +1,10 @@
 ﻿"use strict";
 
 angular.module("pcnApp")
-  .service("adminService", function($q, $http) {
+  .service("adminService", function ($q, $http, settings) {
     var getComputersInfo = function() {
       var deferred = $q.defer();
-      $http.get("http://localhost:21100/api/measure", {
+      $http.get(settings.apiBaseUri + "/measure", {
         headers: { 'Content-Type': "application/json" }
       }).success(function(responce) {
         deferred.resolve(responce);
@@ -16,7 +16,7 @@ angular.module("pcnApp")
 
     var getComputerDetail = function(userid) {
       var deferred = $q.defer();
-      $http.get("http://localhost:21100/api/measure/" + userid + "/compinfo", {
+      $http.get(settings.apiBaseUri + "/measure/" + userid + "/compinfo", {
         headers: { 'Content-Type': "application/json" }
       }).success(function(responce) {
         deferred.resolve(responce);
@@ -28,7 +28,7 @@ angular.module("pcnApp")
 
     var getRamInfo = function(userid) {
       var deferred = $q.defer();
-      $http.get("http://localhost:21100/api/measure/" + userid + "/ram", {
+      $http.get(settings.apiBaseUri + "/measure/" + userid + "/ram", {
         headers: { 'Content-Type': "application/json" }
       }).success(function(responce) {
         deferred.resolve(responce);
@@ -40,7 +40,7 @@ angular.module("pcnApp")
 
     var getCpuInfo = function(userid) {
       var deferred = $q.defer();
-      $http.get("http://localhost:21100/api/measure/" + userid + "/cpu", {
+      $http.get(settings.apiBaseUri + "/measure/" + userid + "/cpu", {
         headers: { 'Content-Type': "application/json" }
       }).success(function(responce) {
         deferred.resolve(responce);

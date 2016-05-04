@@ -20,7 +20,7 @@ namespace PCN.Server
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            StaticStorage.Instance.InitTestData();
+            //StaticStorage.Instance.InitTestData();
         }
     }
 }

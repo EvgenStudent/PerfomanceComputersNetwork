@@ -58,6 +58,13 @@
       <Project>{76D3343C-1699-4686-BCD1-7DF17A3909A1}</Project>
       <Name>PCN.BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PCN.Server\PCN.Server.csproj">
+      <Project>{7A4F5E7C-0C4E-442F-920C-03D0DDE033FF}</Project>
+      <Name>PCN.Server</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

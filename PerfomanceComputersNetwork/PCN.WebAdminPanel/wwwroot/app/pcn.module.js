@@ -8,3 +8,8 @@ var app = angular.module("pcnApp", [
   "ngSanitize",
   "ngMaterial"
 ]);
+
+app.constant("settings", {
+  apiBaseUri: "http://localhost:21100/api",
+  timerInterval: 3000
+});

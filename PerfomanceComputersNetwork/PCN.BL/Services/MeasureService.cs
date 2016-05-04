@@ -19,11 +19,12 @@ namespace PCN.BL.Services
             return new RamDto
             {
                 Total = pc.TotalPhysicalMemory,
-                Usage = pc.TotalPhysicalMemory - pc.AvailablePhysicalMemory
+                Usage = pc.TotalPhysicalMemory - pc.AvailablePhysicalMemory,
+                DateTime = DateTime.Now
             };
         }
 
-        public double GetCpuUsage()
+        public CpuDto GetCpuUsage()
         {
             var cpuCounter = new PerformanceCounter
             {
@@ -34,9 +35,9 @@ namespace PCN.BL.Services
 
             dynamic firstValue = cpuCounter.NextValue();
             Thread.Sleep(1000);
-            dynamic secondValue = cpuCounter.NextValue();
+            double secondValue = cpuCounter.NextValue();
 
-            return secondValue;
+            return new CpuDto {DateTime = DateTime.Now, Value = secondValue};
         }
 
         public ComputerInfoDto GetComputerInfo()

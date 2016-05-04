@@ -1,12 +1,16 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.ServiceProcess;
 using System.Timers;
+using PCN.BL.Services;
 
 namespace PCN.WinService
 {
     partial class Service : ServiceBase
     {
         private Timer _timer;
+        private readonly MeasureService _measureService = new MeasureService();
+        private readonly SendService _sendService = new SendService(new Uri(ConfigurationManager.AppSettings["ApiBaseUri"]));
 
         public Service()
         {
@@ -16,9 +20,11 @@ namespace PCN.WinService
         protected override void OnStart(string[] args)
         {
             _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["TimerInterval"]));
-            _timer.Elapsed += (sender, eventArgs) =>
+            _timer.Elapsed += async (sender, eventArgs) =>
             {
-                
+                await _sendService.SendComputerInfo(_measureService.GetComputerInfo());
+                await _sendService.SendCpu(_measureService.GetCpuUsage());
+                await _sendService.SendRam(_measureService.GetRamUsage());
             };
             _timer.Start();
         }

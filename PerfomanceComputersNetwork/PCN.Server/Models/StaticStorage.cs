@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using PCN.BL.DTO;
+using PCN.Server.Extensions;
 
 namespace PCN.Server.Models
 {
@@ -9,6 +10,8 @@ namespace PCN.Server.Models
     {
         private static volatile StaticStorage instance;
         private static readonly object syncRoot = new object();
+
+        private const int RetriweMaxCount = 50;
 
         private StaticStorage()
         {
@@ -61,12 +64,12 @@ namespace PCN.Server.Models
 
         public IEnumerable<RamDto> GetRamInfo(Guid id)
         {
-            return RamInfo[id];
+            return RamInfo[id].TakeLast(RetriweMaxCount);
         }
 
         public IEnumerable<CpuDto> GetCpuInfo(Guid id)
         {
-            return CpuInfo[id];
+            return CpuInfo[id].TakeLast(RetriweMaxCount);
         }
 
         public void CreateRamInfo(Guid id, RamDto info)
