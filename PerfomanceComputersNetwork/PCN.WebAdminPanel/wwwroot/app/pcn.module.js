@@ -11,5 +11,5 @@ var app = angular.module("pcnApp", [
 
 app.constant("settings", {
   apiBaseUri: "http://localhost:21100/api",
-  timerInterval: 3000
+  timerInterval: 10000
 });

@@ -22,9 +22,15 @@ namespace PCN.WinService
             _timer = new Timer(double.Parse(ConfigurationManager.AppSettings["TimerInterval"]));
             _timer.Elapsed += async (sender, eventArgs) =>
             {
-                await _sendService.SendComputerInfo(_measureService.GetComputerInfo());
-                await _sendService.SendCpu(_measureService.GetCpuUsage());
-                await _sendService.SendRam(_measureService.GetRamUsage());
+                try
+                {
+                    await _sendService.SendComputerInfo(_measureService.GetComputerInfo());
+                    await _sendService.SendCpu(_measureService.GetCpuUsage());
+                    await _sendService.SendRam(_measureService.GetRamUsage());
+                }
+                catch (Exception exception)
+                {
+                }
             };
             _timer.Start();
         }

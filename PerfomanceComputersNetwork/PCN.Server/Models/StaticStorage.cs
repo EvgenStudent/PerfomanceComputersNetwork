@@ -74,7 +74,6 @@ namespace PCN.Server.Models
 
         public void CreateRamInfo(Guid id, RamDto info)
         {
-            info.DateTime = DateTime.Now;
             if (!RamInfo.ContainsKey(id))
                 RamInfo.Add(id, new List<RamDto> { info });
             else
@@ -83,7 +82,6 @@ namespace PCN.Server.Models
 
         public void CreateCpuInfo(Guid id, CpuDto info)
         {
-            info.DateTime = DateTime.Now;
             if (!CpuInfo.ContainsKey(id))
                 CpuInfo.Add(id, new List<CpuDto> { info });
             else

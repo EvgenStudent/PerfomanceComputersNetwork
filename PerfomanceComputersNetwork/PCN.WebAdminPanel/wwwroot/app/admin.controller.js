@@ -4,7 +4,7 @@ angular.module("pcnApp")
   .controller("adminController", [
     "$scope", "$q", "$mdDialog", "$interval", "adminService", "settings",
     function($scope, $q, $mdDialog, $interval, adminService, settings) {
-      adminService.getComputersInfo().then(function(infos) {
+      adminService.getComputersInfo().then(function (infos) {
         $scope.infos = infos;
       });
 
@@ -64,10 +64,12 @@ angular.module("pcnApp")
 
       var downloadData = function(id) {
         $q.all({
+          infos: adminService.getComputersInfo(),
           compDetails: adminService.getComputerDetail(id),
           ramArray: adminService.getRamInfo(id),
           cpuArray: adminService.getCpuInfo(id)
         }).then(function(data) {
+          $scope.infos = data.infos;
           $scope.compDetails = data.compDetails;
           $scope.ramArray = data.ramArray;
           $scope.cpuArray = data.cpuArray;
@@ -96,8 +98,10 @@ angular.module("pcnApp")
           $scope.stopTimer();
 
         timer = $interval(function(id1) {
+          adminService.getComputersInfo().then(function (infos) {
+            $scope.infos = infos;
+          });
           downloadData(id1);
-          console.log(id1 + " : " + new Date().toTimeString());
         }, settings.timerInterval, 0, true, id);
       };
 
