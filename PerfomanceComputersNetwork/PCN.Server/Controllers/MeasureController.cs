@@ -6,7 +6,7 @@ using PCN.Server.Models;
 
 namespace PCN.Server.Controllers
 {
-    [EnableCors(origins: "http://localhost:22699", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://pcnwebadminpanel.azurewebsites.net", headers: "*", methods: "*")]
     //[RoutePrefix("api/measure/{userid}")]
     public class MeasureController : ApiController
     {

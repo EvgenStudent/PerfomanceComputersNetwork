@@ -10,6 +10,6 @@ var app = angular.module("pcnApp", [
 ]);
 
 app.constant("settings", {
-  apiBaseUri: "http://localhost:21100/api",
+  apiBaseUri: "http://pcnserver20160522042844.azurewebsites.net/api",
   timerInterval: 10000
 });
